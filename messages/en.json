@@ -101,6 +101,30 @@
         "nameRequired": "Give the day a name.",
         "nameTooLong": "Name is too long (max 50 characters)."
       }
+    },
+    "exercises": {
+      "addExercise": "Add exercise",
+      "add": "Add",
+      "added": "Added",
+      "edit": "Edit",
+      "remove": "Remove",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "sets": "Sets",
+      "reps": "Reps",
+      "rest": "Rest (sec)",
+      "notes": "Notes",
+      "empty": "You haven't added any exercises to this day yet.",
+      "backToDay": "Back to day",
+      "validation": {
+        "setsMin": "At least 1 set.",
+        "setsMax": "At most 20 sets.",
+        "repsRequired": "Enter the target reps.",
+        "repsTooLong": "Too long (max 20 characters).",
+        "restMin": "Rest can't be negative.",
+        "restMax": "At most 600 seconds.",
+        "notesTooLong": "Notes are too long (max 300 characters)."
+      }
     }
   }
 }

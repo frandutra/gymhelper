@@ -101,6 +101,30 @@
         "nameRequired": "Poné un nombre para el día.",
         "nameTooLong": "El nombre es demasiado largo (máx. 50 caracteres)."
       }
+    },
+    "exercises": {
+      "addExercise": "Agregar ejercicio",
+      "add": "Agregar",
+      "added": "Agregado",
+      "edit": "Editar",
+      "remove": "Quitar",
+      "moveUp": "Subir",
+      "moveDown": "Bajar",
+      "sets": "Series",
+      "reps": "Reps",
+      "rest": "Descanso (seg)",
+      "notes": "Notas",
+      "empty": "Todavía no agregaste ejercicios a este día.",
+      "backToDay": "Volver al día",
+      "validation": {
+        "setsMin": "Mínimo 1 serie.",
+        "setsMax": "Máximo 20 series.",
+        "repsRequired": "Poné las repeticiones objetivo.",
+        "repsTooLong": "Demasiado largo (máx. 20 caracteres).",
+        "restMin": "El descanso no puede ser negativo.",
+        "restMax": "Máximo 600 segundos.",
+        "notesTooLong": "Las notas son demasiado largas (máx. 300 caracteres)."
+      }
     }
   }
 }

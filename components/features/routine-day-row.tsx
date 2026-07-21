@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import {
   deleteDayAction,
@@ -89,12 +90,12 @@ export function RoutineDayRow({
 
   return (
     <div className="flex items-center justify-between gap-2 rounded-2xl border border-border bg-surface p-3">
-      <div>
-        <p className="font-medium">{day.name}</p>
+      <Link href={`/routines/${routineId}/days/${day.id}`} className="flex-1">
+        <p className="font-medium underline">{day.name}</p>
         <p className="text-sm text-muted">
           {day.weekday !== null ? weekdays[day.weekday] : t("weekdayNone")}
         </p>
-      </div>
+      </Link>
       <div className="flex items-center gap-2">
         <form action={moveDayAction}>
           <input type="hidden" name="routineId" value={routineId} />

@@ -1,14 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { addExerciseAction } from "@/app/(app)/routines/[id]/days/[dayId]/actions";
 import { ExerciseFilters } from "@/components/features/exercise-filters";
 import {
   isValidBodyPart,
   listEquipmentOptions,
   listExercises,
 } from "@/lib/db/queries/exercises";
+import {
+  getRoutineDayWithOwner,
+  listExerciseIdsInDay,
+} from "@/lib/db/queries/routine-exercises";
 import { bodyPart } from "@/lib/db/schema";
 import { exerciseMediaUrl } from "@/lib/media";
+import { createClient } from "@/lib/supabase/server";
 
 const PAGE_SIZE = 24;
 
@@ -42,9 +48,18 @@ export default async function ExercisesPage({
   const bodyPartFilter =
     bodyPartParam && isValidBodyPart(bodyPartParam) ? bodyPartParam : undefined;
   const page = Math.max(1, Number(first(params.page)) || 1);
+  const dayId = first(params.dayId);
 
-  const [t, { rows, total }, equipmentOptions] = await Promise.all([
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const pickDay = dayId ? await getRoutineDayWithOwner(user!.id, dayId) : undefined;
+
+  const [t, tRoutineExercises, { rows, total }, equipmentOptions, addedIds] = await Promise.all([
     getTranslations("exercises"),
+    getTranslations("routines.exercises"),
     listExercises({
       query,
       bodyPart: bodyPartFilter,
@@ -53,12 +68,22 @@ export default async function ExercisesPage({
       pageSize: PAGE_SIZE,
     }),
     listEquipmentOptions(),
+    pickDay ? listExerciseIdsInDay(pickDay.dayId) : Promise.resolve(new Set<string>()),
   ]);
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4">
+      {pickDay && (
+        <Link
+          href={`/routines/${pickDay.routineId}/days/${pickDay.dayId}`}
+          className="text-sm font-medium text-accent underline"
+        >
+          ← {tRoutineExercises("backToDay")} ({pickDay.dayName})
+        </Link>
+      )}
+
       <h1 className="text-2xl font-extrabold tracking-tight">{t("title")}</h1>
 
       <ExerciseFilters bodyParts={bodyPart.enumValues} equipmentOptions={equipmentOptions} />
@@ -68,11 +93,8 @@ export default async function ExercisesPage({
       ) : (
         <ul className="grid grid-cols-2 gap-3">
           {rows.map((ex) => (
-            <li key={ex.id}>
-              <Link
-                href={`/exercises/${ex.id}`}
-                className="flex flex-col gap-2 rounded-2xl border border-border bg-surface p-2"
-              >
+            <li key={ex.id} className="flex flex-col gap-2 rounded-2xl border border-border bg-surface p-2">
+              <Link href={`/exercises/${ex.id}`} className="flex flex-col gap-2">
                 <Image
                   src={exerciseMediaUrl(ex.imagePath)}
                   alt={ex.name}
@@ -82,6 +104,24 @@ export default async function ExercisesPage({
                 />
                 <span className="text-sm font-medium capitalize">{ex.name}</span>
               </Link>
+              {pickDay && (
+                addedIds.has(ex.id) ? (
+                  <span className="text-center text-sm text-muted">
+                    ✓ {tRoutineExercises("added")}
+                  </span>
+                ) : (
+                  <form action={addExerciseAction}>
+                    <input type="hidden" name="dayId" value={pickDay.dayId} />
+                    <input type="hidden" name="exerciseId" value={ex.id} />
+                    <button
+                      type="submit"
+                      className="h-9 w-full rounded-xl bg-accent text-sm font-semibold text-accent-foreground"
+                    >
+                      {tRoutineExercises("add")}
+                    </button>
+                  </form>
+                )
+              )}
             </li>
           ))}
         </ul>
