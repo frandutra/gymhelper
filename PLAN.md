@@ -5,7 +5,7 @@
 > **Regla de oro:** no le pases una fase entera a Claude Code de una sola vez. Pasale un slice, pedí el plan de archivos antes de codear, revisá, probá, commiteá, y recién ahí seguí.
 >
 > Contexto y convenciones en `CLAUDE.md`. Setup base según `setup.md`.
-> Estado actual: **Fase 0 en curso** (0.1–0.6 completos). Marcá `[x]` a medida que cerrás cada slice.
+> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
 
 ---
 
@@ -19,7 +19,7 @@ Objetivo: que el proyecto arranque, se conecte a la base y deployee. Sigue `setu
 - [x] **0.4 — Auth.** Signup, login, logout. Guard en `app/(app)/layout.tsx` + `proxy.ts`. *Aceptación:* registro → ruta protegida; sin sesión redirige. "Confirm email" desactivado en Supabase: el registro abre sesión directo.
 - [x] **0.5 — i18n base.** next-intl sin prefijo de URL: cookie de locale, `/messages/es.json` + `en.json`, layout que resuelve el locale (cookie → `users.locale` → `es`). Selector mínimo en una página de prueba. *Aceptación:* la misma página se ve en es/en al cambiar el selector.
 - [x] **0.6 — DESIGN.md.** Definir paleta (tokens CSS + `@theme` Tailwind), tipografía, radios, espaciado, tema claro/oscuro. Pensado para uso mobile en gimnasio: alto contraste, targets táctiles grandes (mínimo 44px), números legibles (`tabular-nums`). *Aceptación:* archivo escrito y tokens funcionando en `globals.css`.
-- [ ] **0.7 — Deploy.** Repo en GitHub, Vercel, env vars, primer deploy. *Aceptación:* login funciona en la URL pública.
+- [x] **0.7 — Deploy.** Repo en GitHub, Vercel, env vars, primer deploy. *Aceptación:* login funciona en la URL pública. Prod: https://gymhelper-sage.vercel.app — repo: https://github.com/frandutra/gymhelper
 
 ---
 
