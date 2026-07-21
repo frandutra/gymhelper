@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { startWorkoutSessionAction } from "@/app/(app)/workout/actions";
 import { RoutineExerciseRow } from "@/components/features/routine-exercise-row";
 import {
   getRoutineDayWithOwner,
@@ -21,9 +22,10 @@ export default async function RoutineDayPage({
   const day = await getRoutineDayWithOwner(user!.id, dayId);
   if (!day || day.routineId !== routineId) notFound();
 
-  const [t, tDays, items] = await Promise.all([
+  const [t, tDays, tWorkout, items] = await Promise.all([
     getTranslations("routines.exercises"),
     getTranslations("routines.days"),
+    getTranslations("workout"),
     listRoutineExercises(dayId),
   ]);
   const weekdays = tDays.raw("weekdays") as string[];
@@ -39,9 +41,19 @@ export default async function RoutineDayPage({
         {day.weekday !== null && <p className="text-sm text-muted">{weekdays[day.weekday]}</p>}
       </div>
 
+      <form action={startWorkoutSessionAction}>
+        <input type="hidden" name="dayId" value={dayId} />
+        <button
+          type="submit"
+          className="h-11 w-full rounded-xl bg-accent px-4 font-semibold text-accent-foreground shadow-md"
+        >
+          {tWorkout("startWorkout")}
+        </button>
+      </form>
+
       <Link
         href={`/exercises?dayId=${dayId}`}
-        className="flex h-11 items-center justify-center rounded-xl bg-accent px-4 font-semibold text-accent-foreground"
+        className="flex h-11 items-center justify-center rounded-xl border border-border px-4 font-semibold text-foreground"
       >
         {t("addExercise")}
       </Link>

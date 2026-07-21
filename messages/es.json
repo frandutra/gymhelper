@@ -32,6 +32,15 @@
     "sessionAs": "Sesión iniciada como {email}",
     "logout": "Cerrar sesión"
   },
+  "workout": {
+    "title": "Sesión de entrenamiento",
+    "startWorkout": "Entrenar hoy",
+    "noActiveSession": "No tenés ninguna sesión en curso.",
+    "goToRoutines": "Ir a mis rutinas",
+    "noDay": "Sesión libre (sin día de rutina asociado)",
+    "startedAt": "Empezada a las {time}",
+    "finish": "Cerrar sesión"
+  },
   "localeSwitcher": {
     "label": "Idioma"
   },

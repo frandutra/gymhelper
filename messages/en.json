@@ -32,6 +32,15 @@
     "sessionAs": "Signed in as {email}",
     "logout": "Log out"
   },
+  "workout": {
+    "title": "Workout session",
+    "startWorkout": "Train today",
+    "noActiveSession": "You don't have any active session.",
+    "goToRoutines": "Go to my routines",
+    "noDay": "Free session (no routine day attached)",
+    "startedAt": "Started at {time}",
+    "finish": "Finish session"
+  },
   "localeSwitcher": {
     "label": "Language"
   },

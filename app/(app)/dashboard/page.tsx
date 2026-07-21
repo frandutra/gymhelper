@@ -10,6 +10,7 @@ export default async function DashboardPage() {
   const t = await getTranslations("dashboard");
   const tExercises = await getTranslations("exercises");
   const tRoutines = await getTranslations("routines");
+  const tWorkout = await getTranslations("workout");
   const supabase = await createClient();
   const {
     data: { user },
@@ -26,6 +27,9 @@ export default async function DashboardPage() {
       </Link>
       <Link href="/routines" className="font-medium text-accent underline">
         {tRoutines("title")}
+      </Link>
+      <Link href="/workout" className="font-medium text-accent underline">
+        {tWorkout("title")}
       </Link>
       <form action={logout}>
         <Button type="submit">{t("logout")}</Button>
