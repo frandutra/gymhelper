@@ -34,5 +34,29 @@
   },
   "localeSwitcher": {
     "label": "Language"
+  },
+  "exercises": {
+    "title": "Exercises",
+    "searchPlaceholder": "Search exercise…",
+    "bodyPartLabel": "Body part",
+    "bodyPartAll": "All body parts",
+    "equipmentLabel": "Equipment",
+    "equipmentAll": "All equipment",
+    "noResults": "No exercises found.",
+    "pageOf": "Page {page} of {totalPages}",
+    "prev": "Previous",
+    "next": "Next",
+    "bodyParts": {
+      "back": "Back",
+      "cardio": "Cardio",
+      "chest": "Chest",
+      "lower arms": "Lower arms",
+      "lower legs": "Lower legs",
+      "neck": "Neck",
+      "shoulders": "Shoulders",
+      "upper arms": "Upper arms",
+      "upper legs": "Upper legs",
+      "waist": "Waist"
+    }
   }
 }

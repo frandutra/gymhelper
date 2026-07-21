@@ -34,5 +34,29 @@
   },
   "localeSwitcher": {
     "label": "Idioma"
+  },
+  "exercises": {
+    "title": "Ejercicios",
+    "searchPlaceholder": "Buscar ejercicio…",
+    "bodyPartLabel": "Grupo muscular",
+    "bodyPartAll": "Todos los grupos",
+    "equipmentLabel": "Equipamiento",
+    "equipmentAll": "Todo el equipamiento",
+    "noResults": "No se encontraron ejercicios.",
+    "pageOf": "Página {page} de {totalPages}",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "bodyParts": {
+      "back": "Espalda",
+      "cardio": "Cardio",
+      "chest": "Pecho",
+      "lower arms": "Antebrazos",
+      "lower legs": "Pantorrillas",
+      "neck": "Cuello",
+      "shoulders": "Hombros",
+      "upper arms": "Brazos",
+      "upper legs": "Piernas",
+      "waist": "Abdomen"
+    }
   }
 }
