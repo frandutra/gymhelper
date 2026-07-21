@@ -76,10 +76,12 @@ export const exercises = pgTable("exercises", {
   muscleGroup: text("muscle_group").notNull(),
   secondaryMuscles: text("secondary_muscles").array().notNull().default([]),
   equipment: text("equipment").notNull(),
-  // { es: string, en: string }
-  instructions: jsonb("instructions").notNull(),
-  // { es: string[], en: string[] }
-  instructionSteps: jsonb("instruction_steps").notNull(),
+  instructions: jsonb("instructions")
+    .$type<{ es: string; en: string }>()
+    .notNull(),
+  instructionSteps: jsonb("instruction_steps")
+    .$type<{ es: string[]; en: string[] }>()
+    .notNull(),
   imagePath: text("image_path").notNull(),
   gifPath: text("gif_path").notNull(),
   attribution: text("attribution").notNull(),

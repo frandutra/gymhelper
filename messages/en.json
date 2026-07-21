@@ -57,6 +57,14 @@
       "upper arms": "Upper arms",
       "upper legs": "Upper legs",
       "waist": "Waist"
+    },
+    "detail": {
+      "back": "Back",
+      "targetLabel": "Target muscle",
+      "muscleGroupLabel": "Primary muscle",
+      "secondaryMusclesLabel": "Secondary muscles",
+      "equipmentLabel": "Equipment",
+      "instructionsLabel": "Instructions"
     }
   }
 }

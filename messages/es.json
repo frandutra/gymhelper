@@ -57,6 +57,14 @@
       "upper arms": "Brazos",
       "upper legs": "Piernas",
       "waist": "Abdomen"
+    },
+    "detail": {
+      "back": "Volver",
+      "targetLabel": "Músculo objetivo",
+      "muscleGroupLabel": "Músculo principal",
+      "secondaryMusclesLabel": "Músculos secundarios",
+      "equipmentLabel": "Equipamiento",
+      "instructionsLabel": "Instrucciones"
     }
   }
 }

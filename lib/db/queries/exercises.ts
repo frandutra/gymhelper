@@ -51,3 +51,8 @@ export async function listEquipmentOptions(): Promise<string[]> {
     .orderBy(asc(exercises.equipment));
   return rows.map((r) => r.equipment);
 }
+
+export async function getExerciseById(id: string) {
+  const [row] = await db.select().from(exercises).where(eq(exercises.id, id));
+  return row;
+}

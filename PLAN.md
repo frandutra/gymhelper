@@ -5,7 +5,7 @@
 > **Regla de oro:** no le pases una fase entera a Claude Code de una sola vez. Pasale un slice, pedí el plan de archivos antes de codear, revisá, probá, commiteá, y recién ahí seguí.
 >
 > Contexto y convenciones en `CLAUDE.md`. Setup base según `setup.md`.
-> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 en curso** (1.1–1.3 completos). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
+> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
 
 ---
 
@@ -30,7 +30,7 @@ Objetivo: el dataset vivo dentro de la app: buscar, filtrar y ver cualquier ejer
 - [x] **1.1 — Seed del dataset.** `scripts/seed-exercises.ts`: descarga el dataset, valida con Zod, recorta `instructions`/`instruction_steps` a `{es, en}`, upserta por `dataset_id` (`onConflictDoUpdate`). *Aceptación:* `SELECT count(*) FROM exercises` = 1324; correr el seed dos veces no duplica. Nota: el insert usa el cliente Drizzle directo (rol `postgres` del pooler ya bypassea RLS) — no hizo falta la service role key para este slice; queda reservada para el upload a Storage en 1.2. `image_path`/`gif_path` ya quedaron seteados con los paths del dataset origen (`images/000X-xxx.jpg`); en 1.2 se sube el binario a esos mismos paths en el bucket propio.
 - [x] **1.2 — Media a Storage.** `scripts/seed-exercise-media.ts`: bucket público `exercise-media`, sube imágenes y GIFs (descargados del repo del dataset) a los paths ya guardados en `image_path`/`gif_path`. Usa `SUPABASE_SERVICE_ROLE_KEY` (Storage sí respeta control de acceso, a diferencia del insert directo por Postgres). Reanudable: hace `HEAD` a la URL pública antes de subir y saltea si ya existe. Concurrencia de 15. *Aceptación:* 2648/2648 archivos subidos (0 fallidos), GIFs/imágenes cargan público — verificado con ejemplos del principio y la mitad del dataset.
 - [x] **1.3 — Listado con búsqueda y filtros.** `/exercises`: búsqueda por nombre (debounced, actualiza la URL), filtros por `body_part` (traducido es/en) y `equipment` (28 valores del dataset, sin traducir), paginación server-side (24/página, 56 páginas), thumbnails vía `next/image` + Supabase Storage. Mobile-first (grid de 2 columnas). *Aceptación:* busco "press" (7 páginas) + filtro chest (3 páginas), resultados correctos; verificado sin errores de servidor/consola.
-- [ ] **1.4 — Ficha de ejercicio.** `/exercises/[id]`: GIF, músculos objetivo y secundarios, equipamiento, instrucciones paso a paso en el idioma del usuario, **atribución a Gym Visual visible**. *Aceptación:* la ficha se ve completa en es y en en.
+- [x] **1.4 — Ficha de ejercicio.** `/exercises/[id]`: GIF (sin optimizar, preserva animación), músculo objetivo/principal/secundarios, equipamiento, instrucciones paso a paso en el idioma del usuario, **atribución a Gym Visual visible**, 404 si no existe. *Aceptación:* ficha completa en es y en; verificada con Barbell Bench Press en ambos idiomas, GIF carga, 404 en id inexistente. Nota: se renombró "muscleGroupLabel" a "Músculo principal"/"Primary muscle" para no duplicar la etiqueta de `bodyPartLabel`.
 
 ---
 
