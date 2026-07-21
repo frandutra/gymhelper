@@ -5,7 +5,7 @@
 > **Regla de oro:** no le pases una fase entera a Claude Code de una sola vez. Pasale un slice, pedí el plan de archivos antes de codear, revisá, probá, commiteá, y recién ahí seguí.
 >
 > Contexto y convenciones en `CLAUDE.md`. Setup base según `setup.md`.
-> Estado actual: **Fase 0 en curso** (0.1–0.2 completos). Marcá `[x]` a medida que cerrás cada slice.
+> Estado actual: **Fase 0 en curso** (0.1–0.3 completos). Marcá `[x]` a medida que cerrás cada slice.
 
 ---
 
@@ -15,7 +15,7 @@ Objetivo: que el proyecto arranque, se conecte a la base y deployee. Sigue `setu
 
 - [x] **0.1 — Scaffold.** Next.js (App Router) + TypeScript + Tailwind v4. Estructura de carpetas según `CLAUDE.md`. ⚠️ `create-next-app` falla con `.md` sueltos en la carpeta: mover `CLAUDE.md`/`PLAN.md`/`setup.md` afuera, scaffoldear, y devolverlos (o scaffoldear en carpeta temporal y mover el contenido). *Aceptación:* `npm run dev` levanta una página en blanco sin errores.
 - [x] **0.2 — Supabase.** Proyecto en Supabase, clientes server/browser en `/lib/supabase`, `.env.local` + `.env.example`. *Aceptación:* query trivial desde un Server Component.
-- [ ] **0.3 — Drizzle + schema completo.** Todas las tablas de `CLAUDE.md` (users, exercises, routines, routine_days, routine_exercises, workout_sessions, set_logs) con RLS y el trigger `on_auth_user_created`. *Aceptación:* tablas y políticas existen en Supabase.
+- [x] **0.3 — Drizzle + schema completo.** Todas las tablas de `CLAUDE.md` (users, exercises, routines, routine_days, routine_exercises, workout_sessions, set_logs) con RLS y el trigger `on_auth_user_created`. *Aceptación:* tablas y políticas existen en Supabase.
 - [ ] **0.4 — Auth.** Signup, login, logout. Guard en `app/(app)/layout.tsx` + `proxy.ts`. *Aceptación:* registro → ruta protegida; sin sesión redirige.
 - [ ] **0.5 — i18n base.** next-intl sin prefijo de URL: cookie de locale, `/messages/es.json` + `en.json`, layout que resuelve el locale (cookie → `users.locale` → `es`). Selector mínimo en una página de prueba. *Aceptación:* la misma página se ve en es/en al cambiar el selector.
 - [ ] **0.6 — DESIGN.md.** Definir paleta (tokens CSS + `@theme` Tailwind), tipografía, radios, espaciado, tema claro/oscuro. Pensado para uso mobile en gimnasio: alto contraste, targets táctiles grandes (mínimo 44px), números legibles (`tabular-nums`). *Aceptación:* archivo escrito y tokens funcionando en `globals.css`.
