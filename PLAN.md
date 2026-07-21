@@ -5,7 +5,7 @@
 > **Regla de oro:** no le pases una fase entera a Claude Code de una sola vez. Pasale un slice, pedí el plan de archivos antes de codear, revisá, probá, commiteá, y recién ahí seguí.
 >
 > Contexto y convenciones en `CLAUDE.md`. Setup base según `setup.md`.
-> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
+> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). **Fase 2 en curso** (2.1 completo). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
 
 ---
 
@@ -38,7 +38,7 @@ Objetivo: el dataset vivo dentro de la app: buscar, filtrar y ver cualquier ejer
 
 Objetivo: armar y gestionar rutinas: rutina → días → ejercicios con prescripción.
 
-- [ ] **2.1 — CRUD de rutinas.** Crear, renombrar, archivar (no borrar si tiene historial). Listado en `/routines`. *Aceptación:* gestiono mis rutinas; RLS probada (un usuario no ve rutinas de otro).
+- [x] **2.1 — CRUD de rutinas.** Crear, renombrar, archivar. Listado en `/routines` (activas + sección de archivadas). *Aceptación:* gestiono mis rutinas; RLS probada. Nota: `/lib/db` conecta con el rol `postgres` del pooler (bypassea RLS) — toda query filtra `user_id` explícitamente en la app; además se verificó RLS "de verdad" con `supabase-js` + anon key autenticado como test2: `select()` sin filtro devuelve solo su propia rutina, leer/actualizar la rutina de test3 por id conocido devuelve `[]` sin afectar filas. Sin UI de borrado permanente en este slice (solo archivar).
 - [ ] **2.2 — Días de rutina.** Agregar/renombrar/reordenar/borrar días dentro de una rutina, weekday opcional. *Aceptación:* una rutina "PPL" con 3 días nombrados y ordenados.
 - [ ] **2.3 — Ejercicios del día.** Selector de ejercicios (reusa búsqueda/filtros de 1.3) para agregar al día; definir series objetivo, rango de reps, descanso; reordenar; quitar. *Aceptación:* un día Push con 5 ejercicios prescriptos en el orden que elegí.
 - [ ] **2.4 — Vista de rutina.** Vista completa de la rutina lista para usar: días con sus ejercicios, prescripción y thumbnails. *Aceptación:* la rutina se lee cómoda en el celular.

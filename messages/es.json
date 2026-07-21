@@ -66,5 +66,25 @@
       "equipmentLabel": "Equipamiento",
       "instructionsLabel": "Instrucciones"
     }
+  },
+  "routines": {
+    "title": "Rutinas",
+    "namePlaceholder": "Nombre (ej. Push Pull Legs)",
+    "notesPlaceholder": "Notas (opcional)",
+    "create": "Crear",
+    "creating": "Creando…",
+    "empty": "Todavía no tenés rutinas.",
+    "rename": "Renombrar",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "cancel": "Cancelar",
+    "archive": "Archivar",
+    "archived": "Archivadas",
+    "archivedOn": "Archivada el {date}",
+    "validation": {
+      "nameRequired": "Poné un nombre para la rutina.",
+      "nameTooLong": "El nombre es demasiado largo (máx. 100 caracteres).",
+      "notesTooLong": "Las notas son demasiado largas (máx. 500 caracteres)."
+    }
   }
 }
