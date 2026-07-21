@@ -1,9 +1,5 @@
 import type { InputHTMLAttributes } from "react";
 
-/**
- * Primitivo provisorio: sin tokens de paleta todavía (ver DESIGN.md, slice 0.6).
- * Restylear cuando se definan los tokens de color/forma.
- */
 export function Input({
   id,
   label,
@@ -12,12 +8,12 @@ export function Input({
 }: InputHTMLAttributes<HTMLInputElement> & { id: string; label: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={id} className="text-sm font-medium">
+      <label htmlFor={id} className="text-sm font-medium text-foreground">
         {label}
       </label>
       <input
         id={id}
-        className={`h-11 rounded-lg border border-black/15 px-3 dark:border-white/15 ${className}`}
+        className={`h-11 rounded-xl border border-border bg-surface px-3 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${className}`}
         {...props}
       />
     </div>

@@ -21,7 +21,7 @@ export function LocaleSwitcher() {
           setLocale(next);
         });
       }}
-      className="h-9 rounded-lg border border-black/15 px-2 text-sm dark:border-white/15"
+      className="h-11 rounded-xl border border-border bg-surface px-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       <option value="es">Español</option>
       <option value="en">English</option>

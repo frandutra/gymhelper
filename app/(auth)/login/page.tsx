@@ -16,8 +16,8 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
-        <p className="text-sm text-gray-500">{t("subtitle")}</p>
+        <h1 className="text-2xl font-extrabold tracking-tight">{t("title")}</h1>
+        <p className="text-sm text-muted">{t("subtitle")}</p>
       </div>
 
       <form action={formAction} className="flex flex-col gap-4">
@@ -47,7 +47,7 @@ export default function LoginPage() {
         </Button>
       </form>
 
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-muted">
         {t("noAccount")}{" "}
         <Link href="/signup" className="font-medium text-foreground underline">
           {t("signupLink")}

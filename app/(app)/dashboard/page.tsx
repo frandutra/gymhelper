@@ -15,7 +15,7 @@ export default async function DashboardPage() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
       <LocaleSwitcher />
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-muted">
         {t("sessionAs", { email: user?.email ?? "" })}
       </p>
       <form action={logout}>
