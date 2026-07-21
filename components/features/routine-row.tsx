@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 import {
   archiveRoutineAction,
@@ -63,10 +64,10 @@ export function RoutineRow({ routine }: { routine: RoutineRowType }) {
 
   return (
     <div className="flex items-center justify-between gap-2 rounded-2xl border border-border bg-surface p-3">
-      <div>
-        <p className="font-medium">{routine.name}</p>
+      <Link href={`/routines/${routine.id}`} className="flex-1">
+        <p className="font-medium underline">{routine.name}</p>
         {routine.notes && <p className="text-sm text-muted">{routine.notes}</p>}
-      </div>
+      </Link>
       <div className="flex items-center gap-3">
         <button
           type="button"

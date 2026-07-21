@@ -48,6 +48,17 @@ export async function renameRoutine(
   return row;
 }
 
+export async function getRoutineById(
+  userId: string,
+  routineId: string,
+): Promise<RoutineRow | undefined> {
+  const [row] = await db
+    .select()
+    .from(routines)
+    .where(and(eq(routines.id, routineId), eq(routines.userId, userId)));
+  return row;
+}
+
 export async function archiveRoutine(
   userId: string,
   routineId: string,

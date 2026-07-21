@@ -85,6 +85,22 @@
       "nameRequired": "Poné un nombre para la rutina.",
       "nameTooLong": "El nombre es demasiado largo (máx. 100 caracteres).",
       "notesTooLong": "Las notas son demasiado largas (máx. 500 caracteres)."
+    },
+    "days": {
+      "namePlaceholder": "Nombre del día (ej. Push)",
+      "weekdayLabel": "Día de la semana",
+      "weekdayNone": "Sin día fijo",
+      "weekdays": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+      "create": "Agregar día",
+      "creating": "Agregando…",
+      "empty": "Todavía no agregaste días a esta rutina.",
+      "delete": "Eliminar",
+      "moveUp": "Subir",
+      "moveDown": "Bajar",
+      "validation": {
+        "nameRequired": "Poné un nombre para el día.",
+        "nameTooLong": "El nombre es demasiado largo (máx. 50 caracteres)."
+      }
     }
   }
 }
