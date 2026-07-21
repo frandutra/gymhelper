@@ -5,7 +5,7 @@
 > **Regla de oro:** no le pases una fase entera a Claude Code de una sola vez. Pasale un slice, pedí el plan de archivos antes de codear, revisá, probá, commiteá, y recién ahí seguí.
 >
 > Contexto y convenciones en `CLAUDE.md`. Setup base según `setup.md`.
-> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). **Fase 2 en curso** (2.1–2.3 completos). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
+> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). **Fase 2 COMPLETA** ✅ (2.1–2.4). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
 
 ---
 
@@ -36,12 +36,12 @@ Objetivo: el dataset vivo dentro de la app: buscar, filtrar y ver cualquier ejer
 
 ## Fase 2 — Rutinas
 
-Objetivo: armar y gestionar rutinas: rutina → días → ejercicios con prescripción.
+Objetivo: armar y gestionar rutinas: rutina → días → ejercicios con prescripción. **Fase COMPLETA** ✅
 
 - [x] **2.1 — CRUD de rutinas.** Crear, renombrar, archivar. Listado en `/routines` (activas + sección de archivadas). *Aceptación:* gestiono mis rutinas; RLS probada. Nota: `/lib/db` conecta con el rol `postgres` del pooler (bypassea RLS) — toda query filtra `user_id` explícitamente en la app; además se verificó RLS "de verdad" con `supabase-js` + anon key autenticado como test2: `select()` sin filtro devuelve solo su propia rutina, leer/actualizar la rutina de test3 por id conocido devuelve `[]` sin afectar filas. Sin UI de borrado permanente en este slice (solo archivar).
 - [x] **2.2 — Días de rutina.** `/routines/[id]`: agregar/renombrar/reordenar (subir/bajar, sin drag-and-drop)/borrar días dentro de una rutina, weekday opcional. Reordenar hace swap de `position` en una transacción. *Aceptación:* rutina "PPL" con 3 días nombrados y ordenados (Push/Pull/Legs), reordenados (Push/Legs/Pull), uno renombrado y otro borrado — probado en el navegador.
 - [x] **2.3 — Ejercicios del día.** `/routines/[id]/days/[dayId]`: link "Agregar ejercicio" reutiliza `/exercises` en modo picker (`?dayId=`) con las mismas búsqueda/filtros de 1.3, botón "Agregar"/"✓ Agregado" por fila, se queda en la página para agregar varios seguidos. Prescripción por defecto 3×10 al agregar, editable inline (series/reps/descanso/notas). Reordenar con subir/bajar (misma transacción swap que 2.2), quitar. *Aceptación:* día "Push" con 5 ejercicios agregados, uno editado a 4×8-12·90s, reordenado y uno quitado — probado en el navegador. Nota: el reorder tarda ~2-3s (SELECT+2 UPDATE contra el pooler remoto); confirmar con espera antes de leer el resultado, no es un bug.
-- [ ] **2.4 — Vista de rutina.** Vista completa de la rutina lista para usar: días con sus ejercicios, prescripción y thumbnails. *Aceptación:* la rutina se lee cómoda en el celular.
+- [x] **2.4 — Vista de rutina.** `/routines/[id]` ahora muestra, debajo de cada día, sus ejercicios en línea (thumbnail 40×40 + nombre + series×reps·descanso), sin tener que entrar a cada día. Reutiliza `listRoutineExercises` (N+1 por día, aceptable para 3–7 días típicos). *Aceptación:* rutina "PPL" con Push (4 ejercicios con thumbnails y prescripción) y Leg Day (estado vacío) — probado en el navegador, sin errores.
 
 ---
 

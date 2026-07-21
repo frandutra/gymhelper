@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { CreateRoutineDayForm } from "@/components/features/create-routine-day-form";
 import { RoutineDayRow } from "@/components/features/routine-day-row";
 import { listRoutineDays } from "@/lib/db/queries/routine-days";
+import { listRoutineExercises } from "@/lib/db/queries/routine-exercises";
 import { getRoutineById } from "@/lib/db/queries/routines";
 import { createClient } from "@/lib/supabase/server";
 
@@ -24,6 +25,8 @@ export default async function RoutineDetailPage({
     listRoutineDays(routine.id),
   ]);
 
+  const daysExercises = await Promise.all(days.map((day) => listRoutineExercises(day.id)));
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4">
       <h1 className="text-2xl font-extrabold capitalize tracking-tight">{routine.name}</h1>
@@ -39,6 +42,7 @@ export default async function RoutineDetailPage({
               <RoutineDayRow
                 routineId={routine.id}
                 day={day}
+                exercises={daysExercises[index]}
                 isFirst={index === 0}
                 isLast={index === days.length - 1}
               />
