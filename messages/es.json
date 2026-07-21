@@ -1,0 +1,38 @@
+{
+  "auth": {
+    "validation": {
+      "emailInvalid": "Email inválido.",
+      "passwordRequired": "Ingresá tu contraseña.",
+      "passwordMin": "La contraseña debe tener al menos 8 caracteres.",
+      "invalidData": "Datos inválidos.",
+      "wrongCredentials": "Email o contraseña incorrectos."
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Entrá a tu GymHelper.",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Entrar",
+      "submitPending": "Entrando…",
+      "noAccount": "¿No tenés cuenta?",
+      "signupLink": "Registrate"
+    },
+    "signup": {
+      "title": "Crear cuenta",
+      "subtitle": "Empezá a administrar tus rutinas.",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Crear cuenta",
+      "submitPending": "Creando…",
+      "hasAccount": "¿Ya tenés cuenta?",
+      "loginLink": "Iniciá sesión"
+    }
+  },
+  "dashboard": {
+    "sessionAs": "Sesión iniciada como {email}",
+    "logout": "Cerrar sesión"
+  },
+  "localeSwitcher": {
+    "label": "Idioma"
+  }
+}

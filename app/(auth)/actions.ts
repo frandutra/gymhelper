@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { loginSchema, signupSchema } from "@/lib/validations/auth";
 
@@ -11,20 +12,21 @@ export async function login(
   _prevState: AuthState,
   formData: FormData,
 ): Promise<AuthState> {
-  const parsed = loginSchema.safeParse({
+  const t = await getTranslations("auth.validation");
+  const parsed = loginSchema(t).safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Datos inválidos." };
+    return { error: parsed.error.issues[0]?.message ?? t("invalidData") };
   }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
 
   if (error) {
-    return { error: "Email o contraseña incorrectos." };
+    return { error: t("wrongCredentials") };
   }
 
   revalidatePath("/", "layout");
@@ -35,13 +37,14 @@ export async function signup(
   _prevState: AuthState,
   formData: FormData,
 ): Promise<AuthState> {
-  const parsed = signupSchema.safeParse({
+  const t = await getTranslations("auth.validation");
+  const parsed = signupSchema(t).safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Datos inválidos." };
+    return { error: parsed.error.issues[0]?.message ?? t("invalidData") };
   }
 
   const supabase = await createClient();

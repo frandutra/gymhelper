@@ -1,11 +1,18 @@
 import { z } from "zod";
 
-export const loginSchema = z.object({
-  email: z.string().email("Email inválido."),
-  password: z.string().min(1, "Ingresá tu contraseña."),
-});
+// t = getTranslations("auth.validation") en el server action que arma el schema.
+type T = (key: string) => string;
 
-export const signupSchema = z.object({
-  email: z.string().email("Email inválido."),
-  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres."),
-});
+export function loginSchema(t: T) {
+  return z.object({
+    email: z.string().email(t("emailInvalid")),
+    password: z.string().min(1, t("passwordRequired")),
+  });
+}
+
+export function signupSchema(t: T) {
+  return z.object({
+    email: z.string().email(t("emailInvalid")),
+    password: z.string().min(8, t("passwordMin")),
+  });
+}
