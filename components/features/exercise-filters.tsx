@@ -15,6 +15,7 @@ export function ExerciseFilters({ bodyParts, equipmentOptions }: Props) {
   const searchParams = useSearchParams();
   const t = useTranslations("exercises");
   const tBodyParts = useTranslations("exercises.bodyParts");
+  const tEquipment = useTranslations("exercises.equipment");
   const [, startTransition] = useTransition();
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
 
@@ -68,12 +69,12 @@ export function ExerciseFilters({ bodyParts, equipmentOptions }: Props) {
           value={searchParams.get("equipment") ?? ""}
           onChange={(e) => updateParams({ equipment: e.target.value })}
           aria-label={t("equipmentLabel")}
-          className="h-11 flex-1 rounded-xl border border-border bg-surface px-2 text-sm capitalize text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="h-11 flex-1 rounded-xl border border-border bg-surface px-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           <option value="">{t("equipmentAll")}</option>
           {equipmentOptions.map((eq) => (
-            <option key={eq} value={eq} className="capitalize">
-              {eq}
+            <option key={eq} value={eq}>
+              {tEquipment(eq)}
             </option>
           ))}
         </select>

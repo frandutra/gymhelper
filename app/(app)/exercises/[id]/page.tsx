@@ -18,6 +18,7 @@ export default async function ExerciseDetailPage({
   const t = await getTranslations("exercises");
   const tDetail = await getTranslations("exercises.detail");
   const tBodyParts = await getTranslations("exercises.bodyParts");
+  const tEquipment = await getTranslations("exercises.equipment");
 
   const steps = exercise.instructionSteps[locale];
 
@@ -55,7 +56,7 @@ export default async function ExerciseDetailPage({
         </div>
         <div>
           <dt className="text-muted">{tDetail("equipmentLabel")}</dt>
-          <dd className="font-medium capitalize">{exercise.equipment}</dd>
+          <dd className="font-medium">{tEquipment(exercise.equipment)}</dd>
         </div>
         {exercise.secondaryMuscles.length > 0 && (
           <div className="col-span-2">
