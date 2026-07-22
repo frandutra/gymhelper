@@ -37,7 +37,7 @@ export default async function RoutineDayPage({
       </Link>
 
       <div>
-        <h1 className="text-2xl font-extrabold capitalize tracking-tight">{day.dayName}</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight">{day.dayName}</h1>
         {day.weekday !== null && <p className="text-sm text-muted">{weekdays[day.weekday]}</p>}
       </div>
 

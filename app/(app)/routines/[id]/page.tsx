@@ -29,7 +29,7 @@ export default async function RoutineDetailPage({
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4">
-      <h1 className="text-2xl font-extrabold capitalize tracking-tight">{routine.name}</h1>
+      <h1 className="text-2xl font-extrabold tracking-tight">{routine.name}</h1>
 
       <CreateRoutineDayForm routineId={routine.id} />
 

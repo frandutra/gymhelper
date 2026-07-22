@@ -43,7 +43,7 @@ export default async function HistorySessionPage({
       </Link>
 
       <div>
-        <h1 className="text-2xl font-extrabold capitalize tracking-tight">
+        <h1 className="text-2xl font-extrabold tracking-tight">
           {session.routineName && session.dayName
             ? `${session.routineName} — ${session.dayName}`
             : t("freeSession")}

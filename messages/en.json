@@ -30,7 +30,14 @@
   },
   "dashboard": {
     "sessionAs": "Signed in as {email}",
-    "logout": "Log out"
+    "logout": "Log out",
+    "today": "Today: {routine} — {day}",
+    "noToday": "You don't have anything scheduled for today.",
+    "pickAnother": "Pick another day",
+    "activeSessionBanner": "You have a session in progress: {routine} — {day}",
+    "continueSession": "Continue",
+    "recentSessions": "Recent sessions",
+    "viewAllHistory": "View all history"
   },
   "workout": {
     "title": "Workout session",

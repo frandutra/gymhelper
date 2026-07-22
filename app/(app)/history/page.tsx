@@ -34,7 +34,7 @@ export default async function HistoryPage() {
                 href={`/history/${session.id}`}
                 className="flex flex-col gap-1 rounded-2xl border border-border bg-surface p-3"
               >
-                <p className="font-medium capitalize">
+                <p className="font-medium">
                   {session.routineName && session.dayName
                     ? `${session.routineName} — ${session.dayName}`
                     : t("freeSession")}

@@ -30,7 +30,14 @@
   },
   "dashboard": {
     "sessionAs": "Sesión iniciada como {email}",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "today": "Hoy: {routine} — {day}",
+    "noToday": "Hoy no tenés nada prescripto.",
+    "pickAnother": "Elegir otro día",
+    "activeSessionBanner": "Tenés una sesión en curso: {routine} — {day}",
+    "continueSession": "Continuar",
+    "recentSessions": "Últimas sesiones",
+    "viewAllHistory": "Ver todo el historial"
   },
   "workout": {
     "title": "Sesión de entrenamiento",

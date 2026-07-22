@@ -60,7 +60,7 @@ export default async function WorkoutPage() {
       <h1 className="text-2xl font-extrabold tracking-tight">{t("title")}</h1>
 
       <div className="flex flex-col gap-2 rounded-2xl border border-border bg-surface p-4 shadow-md">
-        <p className="font-medium capitalize">
+        <p className="font-medium">
           {session.routineName && session.dayName
             ? `${session.routineName} — ${session.dayName}`
             : t("noDay")}
