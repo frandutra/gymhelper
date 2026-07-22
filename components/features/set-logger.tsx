@@ -3,9 +3,10 @@
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { logSetAction } from "@/app/(app)/workout/actions";
+import { displayWeight, toKg, type WeightUnit } from "@/lib/workout/units";
 
-const WEIGHT_STEP = 2.5;
 const REPS_STEP = 1;
+const WEIGHT_STEP: Record<WeightUnit, number> = { kg: 2.5, lb: 5 };
 
 function Stepper({
   label,
@@ -48,23 +49,34 @@ export function SetLogger({
   sessionId,
   exerciseId,
   setNumber,
-  defaultWeight,
+  defaultWeightKg,
   defaultReps,
+  unit,
 }: {
   sessionId: string;
   exerciseId: string;
   setNumber: number;
-  defaultWeight: number;
+  defaultWeightKg: number;
   defaultReps: number;
+  unit: WeightUnit;
 }) {
   const t = useTranslations("workout");
-  const [weight, setWeight] = useState(defaultWeight);
+  // El estado local vive en la unidad de presentación (steps redondos, sin
+  // arrastrar errores de redondeo); solo se convierte a kg al guardar.
+  const [weight, setWeight] = useState(() => displayWeight(defaultWeightKg, unit));
   const [reps, setReps] = useState(defaultReps);
   const [isPending, startTransition] = useTransition();
+  const weightStep = WEIGHT_STEP[unit];
 
   function handleLog() {
     startTransition(async () => {
-      await logSetAction({ sessionId, exerciseId, setNumber, weightKg: weight, reps });
+      await logSetAction({
+        sessionId,
+        exerciseId,
+        setNumber,
+        weightKg: toKg(weight, unit),
+        reps,
+      });
     });
   }
 
@@ -73,10 +85,10 @@ export function SetLogger({
       <p className="text-sm font-medium text-muted">{t("setNumber", { number: setNumber })}</p>
       <div className="flex items-center justify-between gap-2">
         <Stepper
-          label={t("weightLabel")}
+          label={t("weightLabel", { unit })}
           value={weight}
-          onDecrement={() => setWeight((w) => Math.max(0, w - WEIGHT_STEP))}
-          onIncrement={() => setWeight((w) => w + WEIGHT_STEP)}
+          onDecrement={() => setWeight((w) => Math.max(0, w - weightStep))}
+          onIncrement={() => setWeight((w) => w + weightStep)}
         />
         <Stepper
           label={t("repsLabel")}

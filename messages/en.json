@@ -41,14 +41,20 @@
     "startedAt": "Started at {time}",
     "finish": "Finish session",
     "target": "Target: {sets} × {reps}",
-    "lastTime": "Last time: {weight} kg × {reps}",
+    "lastTime": "Last time: {weight} {unit} × {reps}",
     "setNumber": "Set {number}",
-    "weightLabel": "Weight (kg)",
+    "weightLabel": "Weight ({unit})",
     "repsLabel": "Reps",
     "logSet": "Log set",
     "logging": "Logging…",
-    "loggedSet": "Set {number}: {weight} kg × {reps}",
+    "loggedSet": "Set {number}: {weight} {unit} × {reps}",
     "removeSet": "Remove"
+  },
+  "settings": {
+    "title": "Settings",
+    "unitLabel": "Weight unit",
+    "unitKg": "Kilograms (kg)",
+    "unitLb": "Pounds (lb)"
   },
   "localeSwitcher": {
     "label": "Language"

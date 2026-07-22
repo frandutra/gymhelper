@@ -41,17 +41,23 @@
     "startedAt": "Empezada a las {time}",
     "finish": "Cerrar sesión",
     "target": "Objetivo: {sets} × {reps}",
-    "lastTime": "La última vez: {weight} kg × {reps}",
+    "lastTime": "La última vez: {weight} {unit} × {reps}",
     "setNumber": "Serie {number}",
-    "weightLabel": "Peso (kg)",
+    "weightLabel": "Peso ({unit})",
     "repsLabel": "Reps",
     "logSet": "Registrar serie",
     "logging": "Registrando…",
-    "loggedSet": "Serie {number}: {weight} kg × {reps}",
+    "loggedSet": "Serie {number}: {weight} {unit} × {reps}",
     "removeSet": "Quitar"
   },
   "localeSwitcher": {
     "label": "Idioma"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "unitLabel": "Unidad de peso",
+    "unitKg": "Kilogramos (kg)",
+    "unitLb": "Libras (lb)"
   },
   "exercises": {
     "title": "Ejercicios",

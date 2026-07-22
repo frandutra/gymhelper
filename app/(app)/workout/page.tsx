@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { SetLogger } from "@/components/features/set-logger";
 import { listRoutineExercises } from "@/lib/db/queries/routine-exercises";
 import { getLastTimeLog, listSetLogs } from "@/lib/db/queries/set-logs";
+import { getUserSettings } from "@/lib/db/queries/users";
 import { getActiveSession } from "@/lib/db/queries/workout-sessions";
 import { exerciseMediaUrl } from "@/lib/media";
 import { createClient } from "@/lib/supabase/server";
 import { parseDefaultReps } from "@/lib/workout/defaults";
+import { displayWeight } from "@/lib/workout/units";
 
 export default async function WorkoutPage() {
   const supabase = await createClient();
@@ -19,11 +21,13 @@ export default async function WorkoutPage() {
 
   const userId = user!.id;
 
-  const [t, locale, session] = await Promise.all([
+  const [t, locale, session, settings] = await Promise.all([
     getTranslations("workout"),
     getLocale(),
     getActiveSession(userId),
+    getUserSettings(userId),
   ]);
+  const unit = settings?.unitPreference ?? "kg";
 
   if (!session) {
     return (
@@ -101,7 +105,11 @@ export default async function WorkoutPage() {
                 </p>
                 {lastTime && (
                   <p className="text-sm tabular-nums text-muted">
-                    {t("lastTime", { weight: lastTime.weightKg, reps: lastTime.reps })}
+                    {t("lastTime", {
+                      weight: displayWeight(lastTime.weightKg, unit),
+                      unit,
+                      reps: lastTime.reps,
+                    })}
                   </p>
                 )}
               </div>
@@ -117,7 +125,8 @@ export default async function WorkoutPage() {
                     <span>
                       {t("loggedSet", {
                         number: log.setNumber,
-                        weight: log.weightKg,
+                        weight: displayWeight(log.weightKg, unit),
+                        unit,
                         reps: log.reps,
                       })}
                     </span>
@@ -138,8 +147,9 @@ export default async function WorkoutPage() {
               sessionId={session.id}
               exerciseId={exercise.exerciseId}
               setNumber={nextSetNumber}
-              defaultWeight={defaultWeight}
+              defaultWeightKg={defaultWeight}
               defaultReps={defaultReps}
+              unit={unit}
             />
           </div>
         );
