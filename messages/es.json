@@ -39,7 +39,15 @@
     "goToRoutines": "Ir a mis rutinas",
     "noDay": "Sesión libre (sin día de rutina asociado)",
     "startedAt": "Empezada a las {time}",
-    "finish": "Cerrar sesión"
+    "finish": "Cerrar sesión",
+    "target": "Objetivo: {sets} × {reps}",
+    "setNumber": "Serie {number}",
+    "weightLabel": "Peso (kg)",
+    "repsLabel": "Reps",
+    "logSet": "Registrar serie",
+    "logging": "Registrando…",
+    "loggedSet": "Serie {number}: {weight} kg × {reps}",
+    "removeSet": "Quitar"
   },
   "localeSwitcher": {
     "label": "Idioma"

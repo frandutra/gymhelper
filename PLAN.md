@@ -5,7 +5,7 @@
 > **Regla de oro:** no le pases una fase entera a Claude Code de una sola vez. Pasale un slice, pedí el plan de archivos antes de codear, revisá, probá, commiteá, y recién ahí seguí.
 >
 > Contexto y convenciones en `CLAUDE.md`. Setup base según `setup.md`.
-> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). **Fase 2 COMPLETA** ✅ (2.1–2.4). **Fase 3 en curso** (3.1 completo). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
+> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). **Fase 2 COMPLETA** ✅ (2.1–2.4). **Fase 3 en curso** (3.1–3.2 completos). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
 
 ---
 
@@ -50,7 +50,7 @@ Objetivo: armar y gestionar rutinas: rutina → días → ejercicios con prescri
 Objetivo: entrenar con la app en la mano: arrancar sesión, loguear serie por serie, cerrar.
 
 - [x] **3.1 — Iniciar/cerrar sesión.** `/routines/[id]/days/[dayId]`: "Entrenar hoy" crea `workout_session` sobre ese `routine_day` y redirige a `/workout` (vista mínima: rutina/día, hora de inicio, cerrar). Si ya hay una sesión activa, no crea otra — resume la existente (probado: click en "Entrenar hoy" de un día distinto no duplica, sigue mostrando la sesión original). Cerrar setea `finished_at`. *Aceptación:* inicio, veo la sesión en curso, la cierro — verificado en el navegador y confirmado en la base (1 sola fila, `finished_at` seteado al cerrar).
-- [ ] **3.2 — Logger de series.** UI de sesión activa: ejercicios del día en orden, registrar peso × reps por serie con inputs rápidos (steppers, no teclado libre). Guardado inmediato por serie (sin "submit" final). *Aceptación:* registro 3 series de un ejercicio en menos de 20 segundos.
+- [x] **3.2 — Logger de series.** `/workout`: ejercicios del día en orden, cada uno con sus series ya logueadas (peso×reps, con "Quitar") y steppers (±2.5kg / ±1 rep, sin teclado) para la próxima serie. "Registrar serie" guarda esa serie al toque, sin submit final de toda la sesión. Al loguear, la siguiente serie precarga el mismo peso/reps (memoria de sesión; "la última vez" entre sesiones es 3.3). *Aceptación:* 3 series de "Archer Push Up" registradas y visibles al instante. Bug encontrado y corregido en la verificación: el próximo número de serie se calculaba por cantidad de filas (`logs.length + 1`), lo que repetía el número si se borraba una serie intermedia — ahora se calcula sobre `max(set_number) + 1`.
 - [ ] **3.3 — "La última vez".** Al loguear un ejercicio, mostrar peso/reps de la sesión anterior de ese ejercicio, y pre-cargar el stepper con ese peso. *Aceptación:* la segunda sesión muestra los datos de la primera.
 - [ ] **3.4 — Conversión de unidades.** `/lib/workout`: kg↔lb puro + tests. Ajuste en `/settings` (`unit_preference`). La base siempre en kg. *Aceptación:* tests pasan; cambiar a lb convierte toda la UI sin tocar datos.
 - [ ] **3.5 — Historial.** `/history`: sesiones pasadas con fecha, día de rutina, resumen (ejercicios, series totales); detalle por sesión. *Aceptación:* veo qué hice la semana pasada.

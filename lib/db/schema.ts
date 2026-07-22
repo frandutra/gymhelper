@@ -170,7 +170,7 @@ export const setLogs = pgTable("set_logs", {
     .references(() => exercises.id),
   setNumber: integer("set_number").notNull(),
   // Siempre en kg (0 = peso corporal). La conversión a lb es solo de presentación.
-  weightKg: numeric("weight_kg").notNull(),
+  weightKg: numeric("weight_kg", { mode: "number" }).notNull(),
   reps: integer("reps").notNull(),
   notes: text("notes"),
   ...timestamps,

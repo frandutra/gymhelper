@@ -32,6 +32,14 @@ export async function getActiveSession(
   return row;
 }
 
+export async function isSessionOwner(userId: string, sessionId: string): Promise<boolean> {
+  const [row] = await db
+    .select({ id: workoutSessions.id })
+    .from(workoutSessions)
+    .where(and(eq(workoutSessions.id, sessionId), eq(workoutSessions.userId, userId)));
+  return !!row;
+}
+
 export async function startWorkoutSession(userId: string, routineDayId: string) {
   const [row] = await db
     .insert(workoutSessions)

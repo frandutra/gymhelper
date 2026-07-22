@@ -1,9 +1,15 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
-import { finishWorkoutSessionAction } from "@/app/(app)/workout/actions";
+import { deleteSetLogAction, finishWorkoutSessionAction } from "@/app/(app)/workout/actions";
 import { Button } from "@/components/ui/button";
+import { SetLogger } from "@/components/features/set-logger";
+import { listRoutineExercises } from "@/lib/db/queries/routine-exercises";
+import { listSetLogs } from "@/lib/db/queries/set-logs";
 import { getActiveSession } from "@/lib/db/queries/workout-sessions";
+import { exerciseMediaUrl } from "@/lib/media";
 import { createClient } from "@/lib/supabase/server";
+import { parseDefaultReps } from "@/lib/workout/defaults";
 
 export default async function WorkoutPage() {
   const supabase = await createClient();
@@ -30,6 +36,16 @@ export default async function WorkoutPage() {
 
   const timeFormatter = new Intl.DateTimeFormat(locale, { timeStyle: "short" });
 
+  const exercises = session.routineDayId
+    ? await listRoutineExercises(session.routineDayId)
+    : [];
+  const exercisesWithLogs = await Promise.all(
+    exercises.map(async (exercise) => ({
+      exercise,
+      logs: await listSetLogs(session.id, exercise.exerciseId),
+    })),
+  );
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4">
       <h1 className="text-2xl font-extrabold tracking-tight">{t("title")}</h1>
@@ -48,6 +64,73 @@ export default async function WorkoutPage() {
           <Button type="submit">{t("finish")}</Button>
         </form>
       </div>
+
+      {exercisesWithLogs.map(({ exercise, logs }) => {
+        const lastLog = logs[logs.length - 1];
+        // Base en el máximo set_number existente, no en la cantidad de filas:
+        // si se borra una serie intermedia, la próxima no debe repetir número.
+        const nextSetNumber = lastLog ? lastLog.setNumber + 1 : 1;
+        const defaultWeight = lastLog ? lastLog.weightKg : 0;
+        const defaultReps = lastLog ? lastLog.reps : parseDefaultReps(exercise.targetReps);
+
+        return (
+          <div
+            key={exercise.id}
+            className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-3"
+          >
+            <div className="flex items-center gap-3">
+              <Image
+                src={exerciseMediaUrl(exercise.exerciseImagePath)}
+                alt={exercise.exerciseName}
+                width={48}
+                height={48}
+                className="aspect-square rounded-xl object-cover"
+              />
+              <div>
+                <p className="font-medium capitalize">{exercise.exerciseName}</p>
+                <p className="text-sm tabular-nums text-muted">
+                  {t("target", { sets: exercise.targetSets, reps: exercise.targetReps })}
+                </p>
+              </div>
+            </div>
+
+            {logs.length > 0 && (
+              <ul className="flex flex-col gap-1">
+                {logs.map((log) => (
+                  <li
+                    key={log.id}
+                    className="flex items-center justify-between text-sm tabular-nums"
+                  >
+                    <span>
+                      {t("loggedSet", {
+                        number: log.setNumber,
+                        weight: log.weightKg,
+                        reps: log.reps,
+                      })}
+                    </span>
+                    <form action={deleteSetLogAction}>
+                      <input type="hidden" name="sessionId" value={session.id} />
+                      <input type="hidden" name="setLogId" value={log.id} />
+                      <button type="submit" className="text-muted underline">
+                        {t("removeSet")}
+                      </button>
+                    </form>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <SetLogger
+              key={`${exercise.exerciseId}-${nextSetNumber}`}
+              sessionId={session.id}
+              exerciseId={exercise.exerciseId}
+              setNumber={nextSetNumber}
+              defaultWeight={defaultWeight}
+              defaultReps={defaultReps}
+            />
+          </div>
+        );
+      })}
     </main>
   );
 }
