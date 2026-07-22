@@ -55,7 +55,10 @@
     "logSet": "Log set",
     "logging": "Logging…",
     "loggedSet": "Set {number}: {weight} {unit} × {reps}",
-    "removeSet": "Remove"
+    "removeSet": "Remove",
+    "resting": "Resting…",
+    "restDone": "Rest done!",
+    "skipRest": "Skip"
   },
   "settings": {
     "title": "Settings",

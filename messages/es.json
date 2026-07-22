@@ -55,7 +55,10 @@
     "logSet": "Registrar serie",
     "logging": "Registrando…",
     "loggedSet": "Serie {number}: {weight} {unit} × {reps}",
-    "removeSet": "Quitar"
+    "removeSet": "Quitar",
+    "resting": "Descansando…",
+    "restDone": "¡Descanso terminado!",
+    "skipRest": "Saltar"
   },
   "localeSwitcher": {
     "label": "Idioma"

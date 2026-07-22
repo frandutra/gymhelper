@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { deleteSetLogAction, finishWorkoutSessionAction } from "@/app/(app)/workout/actions";
 import { Button } from "@/components/ui/button";
+import { RestTimer } from "@/components/features/rest-timer";
 import { SetLogger } from "@/components/features/set-logger";
 import { listRoutineExercises } from "@/lib/db/queries/routine-exercises";
 import { getLastTimeLog, listSetLogs } from "@/lib/db/queries/set-logs";
@@ -140,6 +141,13 @@ export default async function WorkoutPage() {
                   </li>
                 ))}
               </ul>
+            )}
+
+            {exercise.restSeconds !== null && (
+              <RestTimer
+                restSeconds={exercise.restSeconds}
+                triggerKey={lastLog?.id ?? "none"}
+              />
             )}
 
             <SetLogger
