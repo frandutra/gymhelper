@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, ne } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { setLogs, workoutSessions } from "@/lib/db/schema";
+import { exercises, setLogs, workoutSessions } from "@/lib/db/schema";
 
 export type SetLogRow = typeof setLogs.$inferSelect;
 
@@ -52,6 +52,58 @@ export async function getLastTimeLog(
     .orderBy(desc(workoutSessions.startedAt), desc(setLogs.setNumber))
     .limit(1);
   return row;
+}
+
+export type SessionExerciseLog = {
+  exerciseId: string;
+  exerciseName: string;
+  exerciseImagePath: string;
+  sets: { setNumber: number; weightKg: number; reps: number }[];
+};
+
+/**
+ * Series de una sesión agrupadas por ejercicio, en el orden en que se
+ * empezaron a loguear (no hay una columna de "orden de ejercicios" en la
+ * sesión; el orden cronológico de la primera serie de cada uno alcanza).
+ */
+export async function listSessionExerciseLogs(sessionId: string): Promise<SessionExerciseLog[]> {
+  const rows = await db
+    .select({
+      exerciseId: setLogs.exerciseId,
+      exerciseName: exercises.name,
+      exerciseImagePath: exercises.imagePath,
+      setNumber: setLogs.setNumber,
+      weightKg: setLogs.weightKg,
+      reps: setLogs.reps,
+      createdAt: setLogs.createdAt,
+    })
+    .from(setLogs)
+    .innerJoin(exercises, eq(exercises.id, setLogs.exerciseId))
+    .where(eq(setLogs.sessionId, sessionId))
+    .orderBy(asc(setLogs.createdAt));
+
+  const grouped = new Map<string, SessionExerciseLog>();
+  for (const row of rows) {
+    if (!grouped.has(row.exerciseId)) {
+      grouped.set(row.exerciseId, {
+        exerciseId: row.exerciseId,
+        exerciseName: row.exerciseName,
+        exerciseImagePath: row.exerciseImagePath,
+        sets: [],
+      });
+    }
+    grouped.get(row.exerciseId)!.sets.push({
+      setNumber: row.setNumber,
+      weightKg: row.weightKg,
+      reps: row.reps,
+    });
+  }
+
+  for (const group of grouped.values()) {
+    group.sets.sort((a, b) => a.setNumber - b.setNumber);
+  }
+
+  return Array.from(grouped.values());
 }
 
 export async function deleteSetLog(userId: string, sessionId: string, setLogId: string) {

@@ -56,6 +56,14 @@
     "unitKg": "Kilograms (kg)",
     "unitLb": "Pounds (lb)"
   },
+  "history": {
+    "title": "History",
+    "empty": "You don't have any logged sessions yet.",
+    "emptySession": "This session has no logged sets.",
+    "freeSession": "Free session",
+    "summary": "{exercises, plural, one {# exercise} other {# exercises}} · {sets, plural, one {# set} other {# sets}}",
+    "setLine": "Set {number}: {weight} {unit} × {reps}"
+  },
   "localeSwitcher": {
     "label": "Language"
   },

@@ -1,6 +1,6 @@
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, count, countDistinct, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { routineDays, routines, workoutSessions } from "@/lib/db/schema";
+import { routineDays, routines, setLogs, workoutSessions } from "@/lib/db/schema";
 
 export type ActiveWorkoutSession = {
   id: string;
@@ -54,5 +54,62 @@ export async function finishWorkoutSession(userId: string, sessionId: string) {
     .set({ finishedAt: new Date() })
     .where(and(eq(workoutSessions.id, sessionId), eq(workoutSessions.userId, userId)))
     .returning();
+  return row;
+}
+
+export type FinishedSessionSummary = {
+  id: string;
+  startedAt: Date;
+  finishedAt: Date | null;
+  routineName: string | null;
+  dayName: string | null;
+  exerciseCount: number;
+  totalSets: number;
+};
+
+export function listFinishedSessions(userId: string): Promise<FinishedSessionSummary[]> {
+  return db
+    .select({
+      id: workoutSessions.id,
+      startedAt: workoutSessions.startedAt,
+      finishedAt: workoutSessions.finishedAt,
+      routineName: routines.name,
+      dayName: routineDays.name,
+      exerciseCount: countDistinct(setLogs.exerciseId),
+      totalSets: count(setLogs.id),
+    })
+    .from(workoutSessions)
+    .leftJoin(routineDays, eq(routineDays.id, workoutSessions.routineDayId))
+    .leftJoin(routines, eq(routines.id, routineDays.routineId))
+    .leftJoin(setLogs, eq(setLogs.sessionId, workoutSessions.id))
+    .where(and(eq(workoutSessions.userId, userId), isNotNull(workoutSessions.finishedAt)))
+    .groupBy(workoutSessions.id, routines.name, routineDays.name)
+    .orderBy(desc(workoutSessions.startedAt));
+}
+
+export type FinishedSessionDetail = {
+  id: string;
+  startedAt: Date;
+  finishedAt: Date | null;
+  routineName: string | null;
+  dayName: string | null;
+};
+
+export async function getFinishedSessionById(
+  userId: string,
+  sessionId: string,
+): Promise<FinishedSessionDetail | undefined> {
+  const [row] = await db
+    .select({
+      id: workoutSessions.id,
+      startedAt: workoutSessions.startedAt,
+      finishedAt: workoutSessions.finishedAt,
+      routineName: routines.name,
+      dayName: routineDays.name,
+    })
+    .from(workoutSessions)
+    .leftJoin(routineDays, eq(routineDays.id, workoutSessions.routineDayId))
+    .leftJoin(routines, eq(routines.id, routineDays.routineId))
+    .where(and(eq(workoutSessions.id, sessionId), eq(workoutSessions.userId, userId)));
   return row;
 }

@@ -59,6 +59,14 @@
     "unitKg": "Kilogramos (kg)",
     "unitLb": "Libras (lb)"
   },
+  "history": {
+    "title": "Historial",
+    "empty": "Todavía no tenés sesiones registradas.",
+    "emptySession": "Esta sesión no tiene series registradas.",
+    "freeSession": "Sesión libre",
+    "summary": "{exercises, plural, one {# ejercicio} other {# ejercicios}} · {sets, plural, one {# serie} other {# series}}",
+    "setLine": "Serie {number}: {weight} {unit} × {reps}"
+  },
   "exercises": {
     "title": "Ejercicios",
     "searchPlaceholder": "Buscar ejercicio…",
