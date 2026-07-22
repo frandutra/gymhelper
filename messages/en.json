@@ -62,9 +62,11 @@
   },
   "settings": {
     "title": "Settings",
+    "languageLabel": "Language",
     "unitLabel": "Weight unit",
     "unitKg": "Kilograms (kg)",
-    "unitLb": "Pounds (lb)"
+    "unitLb": "Pounds (lb)",
+    "accountLabel": "Account"
   },
   "history": {
     "title": "History",

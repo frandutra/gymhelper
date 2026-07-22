@@ -5,7 +5,7 @@
 > **Regla de oro:** no le pases una fase entera a Claude Code de una sola vez. Pasale un slice, pedí el plan de archivos antes de codear, revisá, probá, commiteá, y recién ahí seguí.
 >
 > Contexto y convenciones en `CLAUDE.md`. Setup base según `setup.md`.
-> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). **Fase 2 COMPLETA** ✅ (2.1–2.4). **Fase 3 COMPLETA** ✅ (3.1–3.6). **Fase 4 en curso** (4.1–4.2 completos). Prod: https://gymhelper-sage.vercel.app. Marcá `[x]` a medida que cerrás cada slice de las próximas fases.
+> Estado actual: **Fase 0 COMPLETA** ✅ (0.1–0.7). **Fase 1 COMPLETA** ✅ (1.1–1.4). **Fase 2 COMPLETA** ✅ (2.1–2.4). **Fase 3 COMPLETA** ✅ (3.1–3.6). **Fase 4 COMPLETA** ✅ (4.1–4.3). Prod: https://gymhelper-sage.vercel.app. Queda pendiente Fase 5 (backlog, no comprometido). Marcá `[x]` a medida que cerrás cada slice.
 
 ---
 
@@ -60,11 +60,11 @@ Objetivo: entrenar con la app en la mano: arrancar sesión, loguear serie por se
 
 ## Fase 4 — PWA + pulido mobile
 
-Objetivo: que se sienta app nativa en el gimnasio.
+Objetivo: que se sienta app nativa en el gimnasio. **Fase COMPLETA** ✅
 
 - [x] **4.1 — Manifest + instalable.** `app/manifest.ts` (name/short_name/start_url/`display: standalone`/background_color/theme_color/icons 192+512). Ícono propio (mancuerna sobre el acento `#ff5a1f`) generado con `next/og` `ImageResponse` en `scripts/generate-icons.tsx` (`npm run icons:generate`, sin dependencias nuevas) — reemplaza el favicon/apple-icon default de Next vía las convenciones `app/icon.png`/`app/apple-icon.png`. `viewport.themeColor` en `layout.tsx`. *Aceptación técnica verificada:* manifest servido y válido en `/manifest.webmanifest`, `<link rel="icon">`/`apple-touch-icon"` apuntando a los íconos nuevos (192/180px), `theme-color` correcto, sin errores. No se pudo probar la instalación real en un dispositivo Android/iOS desde este entorno — queda pendiente de confirmar por el usuario en su celular. Sin service worker (no pedido en este slice; PWA offline queda en el backlog de Fase 5).
 - [x] **4.2 — Timer de descanso.** `RestTimer`: arranca solo (nunca en el mount inicial, sí en cada serie nueva vía `triggerKey` = id de la última serie) cuando el ejercicio tiene `rest_seconds` prescripto; cuenta regresiva real (`setTimeout` de 1s), "Saltar" para descartarlo sin afectar el resto, vibración (`navigator.vibrate`, con feature-check) + beep sintetizado con Web Audio (sin archivos de audio) al llegar a 0. *Aceptación:* corre con la pantalla abierta — verificado en el navegador: timer arrancó en 90s tras loguear la Serie 1 de "Archer Push Up", descontó en tiempo real, "Saltar" lo descartó sin tocar el resto, y la Serie 2 arrancó un timer nuevo en 90s (no continuó desde donde se saltó). Sin errores.
-- [ ] **4.3 — Ajustes completos.** `/settings`: idioma (persiste en `users.locale`), unidad, gestión de cuenta. *Aceptación:* preferencias persisten entre dispositivos.
+- [x] **4.3 — Ajustes completos.** `/settings`: idioma (reutiliza `LocaleSwitcher`; `lib/i18n/actions.ts` ahora persiste en `users.locale` además de la cookie, no solo desde /settings — cualquier cambio de idioma en la app viaja entre dispositivos), unidad (ya existía desde 3.4), cuenta (alcance acordado con el usuario: solo mostrar el email — sin cambio de contraseña ni borrado de cuenta en este slice). *Aceptación:* verificado borrando la cookie de locale manualmente y recargando — la app cayó al valor guardado en `users.locale` (inglés) en vez del default ('es'), probando que la preferencia persiste sin depender del navegador/dispositivo.
 
 ---
 

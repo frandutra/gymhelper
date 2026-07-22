@@ -12,3 +12,7 @@ export async function getUserSettings(userId: string): Promise<UserSettings | un
 export async function updateUnitPreference(userId: string, unitPreference: "kg" | "lb") {
   await db.update(users).set({ unitPreference }).where(eq(users.id, userId));
 }
+
+export async function updateLocale(userId: string, locale: "es" | "en") {
+  await db.update(users).set({ locale }).where(eq(users.id, userId));
+}

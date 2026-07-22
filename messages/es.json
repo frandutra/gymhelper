@@ -65,9 +65,11 @@
   },
   "settings": {
     "title": "Ajustes",
+    "languageLabel": "Idioma",
     "unitLabel": "Unidad de peso",
     "unitKg": "Kilogramos (kg)",
-    "unitLb": "Libras (lb)"
+    "unitLb": "Libras (lb)",
+    "accountLabel": "Cuenta"
   },
   "history": {
     "title": "Historial",

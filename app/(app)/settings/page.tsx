@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { updateUnitPreferenceAction } from "@/app/(app)/settings/actions";
+import { LocaleSwitcher } from "@/components/features/locale-switcher";
 import { getUserSettings } from "@/lib/db/queries/users";
 import { createClient } from "@/lib/supabase/server";
 
@@ -16,8 +17,13 @@ export default async function SettingsPage() {
   const unit = settings?.unitPreference ?? "kg";
 
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4">
+    <main className="flex flex-1 flex-col gap-6 p-4">
       <h1 className="text-2xl font-extrabold tracking-tight">{t("title")}</h1>
+
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-foreground">{t("languageLabel")}</span>
+        <LocaleSwitcher />
+      </div>
 
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium text-foreground">{t("unitLabel")}</span>
@@ -49,6 +55,11 @@ export default async function SettingsPage() {
             </button>
           </form>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-foreground">{t("accountLabel")}</span>
+        <p className="text-sm text-muted">{user?.email}</p>
       </div>
     </main>
   );
