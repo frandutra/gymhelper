@@ -41,6 +41,7 @@
     "startedAt": "Empezada a las {time}",
     "finish": "Cerrar sesión",
     "target": "Objetivo: {sets} × {reps}",
+    "lastTime": "La última vez: {weight} kg × {reps}",
     "setNumber": "Serie {number}",
     "weightLabel": "Peso (kg)",
     "repsLabel": "Reps",

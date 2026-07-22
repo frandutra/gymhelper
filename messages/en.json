@@ -41,6 +41,7 @@
     "startedAt": "Started at {time}",
     "finish": "Finish session",
     "target": "Target: {sets} × {reps}",
+    "lastTime": "Last time: {weight} kg × {reps}",
     "setNumber": "Set {number}",
     "weightLabel": "Weight (kg)",
     "repsLabel": "Reps",

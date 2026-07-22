@@ -5,7 +5,7 @@ import { deleteSetLogAction, finishWorkoutSessionAction } from "@/app/(app)/work
 import { Button } from "@/components/ui/button";
 import { SetLogger } from "@/components/features/set-logger";
 import { listRoutineExercises } from "@/lib/db/queries/routine-exercises";
-import { listSetLogs } from "@/lib/db/queries/set-logs";
+import { getLastTimeLog, listSetLogs } from "@/lib/db/queries/set-logs";
 import { getActiveSession } from "@/lib/db/queries/workout-sessions";
 import { exerciseMediaUrl } from "@/lib/media";
 import { createClient } from "@/lib/supabase/server";
@@ -17,10 +17,12 @@ export default async function WorkoutPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const userId = user!.id;
+
   const [t, locale, session] = await Promise.all([
     getTranslations("workout"),
     getLocale(),
-    getActiveSession(user!.id),
+    getActiveSession(userId),
   ]);
 
   if (!session) {
@@ -40,10 +42,13 @@ export default async function WorkoutPage() {
     ? await listRoutineExercises(session.routineDayId)
     : [];
   const exercisesWithLogs = await Promise.all(
-    exercises.map(async (exercise) => ({
-      exercise,
-      logs: await listSetLogs(session.id, exercise.exerciseId),
-    })),
+    exercises.map(async (exercise) => {
+      const [logs, lastTime] = await Promise.all([
+        listSetLogs(session.id, exercise.exerciseId),
+        getLastTimeLog(userId, exercise.exerciseId, session.id),
+      ]);
+      return { exercise, logs, lastTime };
+    }),
   );
 
   return (
@@ -65,13 +70,16 @@ export default async function WorkoutPage() {
         </form>
       </div>
 
-      {exercisesWithLogs.map(({ exercise, logs }) => {
+      {exercisesWithLogs.map(({ exercise, logs, lastTime }) => {
         const lastLog = logs[logs.length - 1];
         // Base en el máximo set_number existente, no en la cantidad de filas:
         // si se borra una serie intermedia, la próxima no debe repetir número.
         const nextSetNumber = lastLog ? lastLog.setNumber + 1 : 1;
-        const defaultWeight = lastLog ? lastLog.weightKg : 0;
-        const defaultReps = lastLog ? lastLog.reps : parseDefaultReps(exercise.targetReps);
+        // Prioridad del default: última serie de ESTA sesión > "la última vez"
+        // (sesión anterior) > parseo del rango de reps prescripto.
+        const defaultWeight = lastLog?.weightKg ?? lastTime?.weightKg ?? 0;
+        const defaultReps =
+          lastLog?.reps ?? lastTime?.reps ?? parseDefaultReps(exercise.targetReps);
 
         return (
           <div
@@ -91,6 +99,11 @@ export default async function WorkoutPage() {
                 <p className="text-sm tabular-nums text-muted">
                   {t("target", { sets: exercise.targetSets, reps: exercise.targetReps })}
                 </p>
+                {lastTime && (
+                  <p className="text-sm tabular-nums text-muted">
+                    {t("lastTime", { weight: lastTime.weightKg, reps: lastTime.reps })}
+                  </p>
+                )}
               </div>
             </div>
 
